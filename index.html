@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat - Version 1.8.0</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.5.0.0.js"></script>
+</head>
+<body>
+
+  <div id="login-screen">
+    <div class="login-box">
+      <h2 id="login-title">Join the Chat</h2>
+      <input type="text" id="login-username" placeholder="Username" onkeypress="if(event.key==='Enter') handleAuth()">
+      <input type="password" id="login-password" placeholder="Password" onkeypress="if(event.key==='Enter') handleAuth()">
+      <button id="login-btn" onclick="handleAuth()">Sign In</button>
+      
+      <div id="login-error" style="color: var(--danger); font-size: 12px; display: none; margin-top: 10px;"></div>
+      
+      <div style="margin-top: 15px; font-size: 13px; color: var(--text-muted);">
+        <span id="toggle-auth-text">Don't have an account?</span>
+        <span onclick="toggleAuthMode()" style="color: var(--accent); cursor: pointer; font-weight: bold;">Sign Up</span>
+      </div>
+
+      <div id="status-log">Status: Ready...</div>
+    </div>
+  </div>
+
+  <div id="app-container" style="display: none;">
+    <div id="server-sidebar"><div class="server-icon">CHAT</div></div>
+
+    <div id="channel-sidebar">
+      <div style="padding: 15px; font-weight: bold;">Chatroom Server</div>
+      <div style="padding: 10px; font-size: 11px; color: var(--text-muted); font-weight: bold;">CHANNELS</div>
+      <div id="channel-list"></div>
+    </div>
+
+    <div id="main-content">
+      <div id="chat"></div>
+      <div id="typing-notif"></div>
+      <div id="controls">
+        <div id="reply-preview">
+          <span id="reply-preview-text"></span>
+          <span onclick="cancelReply()" style="cursor:pointer; color:var(--danger); font-size: 16px; font-weight: bold;">×</span>
+        </div>
+        <div style="padding: 20px; background: var(--bg-dark);">
+          <div style="background: var(--input-bg); border-radius: 8px; padding: 11px 16px; display: flex; align-items: center; gap: 10px;">
+            <div id="display-username" style="color:white; font-weight:bold; border-right:1px solid #4e5058; padding-right:10px;"></div>
+            <input type="text" id="messageInput" placeholder="Message..." style="flex-grow:1; background:none; border:none; color:white; outline:none;" oninput="sendTyping()" onkeypress="if(event.key==='Enter') sendMessage()">
+            <button onclick="toggleMod()" style="background:#4e5058; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Mod</button>
+            <button onclick="logout()" style="background:var(--danger); color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Logout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="right-sidebar">
+      <div style="padding: 10px;">
+        <h4 style="font-size: 11px; color: var(--danger);">SERVER CONTROLS</h4>
+        <button onclick="forceReloadAll()" style="width: 100%; background: var(--danger); color: white; border: none; padding: 6px; border-radius: 4px; cursor: pointer; font-size: 12px; margin-bottom: 15px;">
+          Force Reload All Users
+        </button>
+        <hr style="border:0; border-top:1px solid #3f4147; margin:15px 0;">
+        <h4 style="font-size: 11px; color: var(--text-muted);">DELETED MESSAGES</h4>
+        <div id="deleted-log"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
